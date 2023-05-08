@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:tab_cash_app/app_router.dart';
 
+import 'app_start_point.dart';
+
+//App main
 void main() {
-  runApp(const MyApp());
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent)); // hide status bar
+
+  runApp(MyApp(
+    appRouter: AppRouter(),
+  ));
 }
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: 
-    );
-  }
-}
-
