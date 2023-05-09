@@ -5,8 +5,8 @@ import 'package:tab_cash_app/data/repo/users_repo.dart';
 import 'package:tab_cash_app/data/web/user_web_servies.dart';
 import 'package:tab_cash_app/modules/home/cubit/home_cubit.dart';
 
+import 'modules/authentication/login/login_screen.dart';
 import 'modules/home/home_screen.dart';
-import 'modules/login/login_screen.dart';
 
 class AppRouter {
   late UsersRepo usersRepo;
@@ -19,14 +19,14 @@ class AppRouter {
 
   Route? generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case AppRouterStrings.loginRouteString:
+      case AppRouterStrings.homeRouteString:
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
                   create: (context) => homeCubit,
-                  child: const LoginScreen(),
+                  child: const HomeScreen(),
                 ));
-      case AppRouterStrings.homeRouteString:
-        return MaterialPageRoute(builder: (_) => const HomeScreen());
+      case AppRouterStrings.loginRouteString:
+        return MaterialPageRoute(builder: (_) => const LoginScreen());
     }
   }
 }

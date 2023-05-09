@@ -5,12 +5,12 @@ import 'package:extended_phone_number_input/phone_number_controller.dart';
 import 'package:extended_phone_number_input/phone_number_input.dart';
 import 'package:flutter/material.dart';
 import 'package:tab_cash_app/constants/media_query_values.dart';
-import '../../constants/strings.dart';
-import '../compunants/login.dart';
-import '../compunants/primary.dart';
+import 'package:tab_cash_app/modules/authentication/login/password_screen.dart';
+import 'package:tab_cash_app/modules/authentication/signup_screen.dart';
+import '../../../constants/strings.dart';
+import '../../compunants/authentication.dart';
+import '../../compunants/primary.dart';
 import 'package:http/http.dart' as http;
-
-import '../signup/signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,11 +21,11 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final TextEditingController controller = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
 
   Future<int> gitRespons() async {
     try {
-      String getTry = '${AppEndPoints.usersPhoneUrl}${controller.text}';
+      String getTry = '${AppEndPoints.usersPhoneUrl}${phoneController.text}';
       Response response = await Dio().get(getTry);
       return response.statusCode!;
     } catch (e) {
@@ -35,21 +35,18 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   signInOnTab(context) async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const AlertDialog(
-          content: CircularProgressIndicator(),
-        );
-      },
-    );
+    LoginCompunants.showDialogLoading(context);
     var resInt = await gitRespons();
-    print(resInt);
+    print("${resInt}");
+    Navigator.of(context).pop();
+
     switch (resInt) {
       case 200:
         print('Sucsses');
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => SignupScreen(),
+          builder: (context) => PasswordScreen(
+            phoneNumper: phoneController.text,
+          ),
         ));
         break;
       case 404:
@@ -59,6 +56,22 @@ class _LoginScreenState extends State<LoginScreen> {
             return const AlertDialog(
               title: Text("Error"),
               content: Text("This phone number is not registered."),
+              icon: Icon(
+                size: 40,
+                Icons.error,
+                color: Colors.red,
+              ),
+            );
+          },
+        );
+        break;
+      default:
+        showDialog(
+          context: context,
+          builder: (context) {
+            return const AlertDialog(
+              title: Text("Error"),
+              content: Text("error reaching data"),
               icon: Icon(
                 size: 40,
                 Icons.error,
@@ -171,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
         maxLength: 11,
         cursorColor: Colors.black,
         style: TextStyle(fontSize: 20),
-        controller: controller,
+        controller: phoneController,
         decoration: LoginCompunants().phoneFormDecoration(),
         keyboardType: TextInputType.number,
         onChanged: (value) {

@@ -6,6 +6,8 @@ import 'app_start_point.dart';
 
 //App main
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent)); // hide status bar
 

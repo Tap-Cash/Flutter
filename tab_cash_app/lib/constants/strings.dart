@@ -5,6 +5,8 @@ class AppEndPoints {
   static const String loginUrl = '${baseUrl}auth/login';
   static const String registerUrl = '${baseUrl}auth/register';
   static const String usersUrl = '${baseUrl}users/';
+  static const String usersIdUrl = '${baseUrl}users/id/';
+
   static const String usersPhoneUrl = '${baseUrl}users/phone/';
   static const String testphone = "01144474054";
   static const String testphone2 = "01144474054";
